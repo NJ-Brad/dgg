@@ -10,7 +10,7 @@
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceFolder}/out/dgg.js",
-			"args": ["myFolder/path/app.js"],
+			"args": ["${workspaceFolder}/src/sample.dep", "${workspaceFolder}/src/"],
 			"windows": {
 			  "args": ["${workspaceFolder}\\src\\sample.dep", "${workspaceFolder}\\src\\"]
 			},

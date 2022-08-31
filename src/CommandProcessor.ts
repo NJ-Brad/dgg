@@ -18,6 +18,9 @@ import { BlockToFlowchartConverter} from "./dsl/flow/BlockToFlowchartConverter";
 import { FlowchartWorkspace } from "./dsl/flow/FlowchartWorkspace";
 import { FlowchartPublisher } from "./dsl/flow/FlowchartPublisher";
 
+import {BlockToWorkItemsConverter} from "./Dsl/workItem/BlockToWorkItemsConverter";
+import {WorkItemWorkspace} from "./Dsl/workItem/WorkItemWorkspace";
+
 import * as mdConvert from "./MarkdownToHtml";
 
 export class CommandProcessor {
@@ -72,11 +75,11 @@ export class CommandProcessor {
             var block: Block = new Block();
             bp.parse(block.children, stream, 0);
             
-            var btc4: BlockToC4Converter = new BlockToC4Converter();
+            var btd: BlockToWorkItemsConverter = new BlockToWorkItemsConverter();
             
-            var ws: C4Workspace = btc4.convert(block);
+            var ws: WorkItemWorkspace = btd.convert(block);
             
-            var publisher: C4Publisher = new C4Publisher();
+            //var publisher: C4Publisher = new C4Publisher();
             
             var newText = "";
             // var path = require('path');
@@ -85,26 +88,26 @@ export class CommandProcessor {
             var imgName : string;
             var rnr: MermaidRunner = new MermaidRunner();
     
-            outName = this.getTempFileName();
-            imgName = path.join(destinationFolder, filename)+"-context.png";
-            newText = publisher.publish(ws, "Context", "PLANT");
-            fs.writeFileSync(outName, newText);
-            rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-            console.log(`${sourceFileName} --> ${imgName}`);
+            // outName = this.getTempFileName();
+            // imgName = path.join(destinationFolder, filename)+"-context.png";
+            // newText = publisher.publish(ws, "Context", "PLANT");
+            // fs.writeFileSync(outName, newText);
+            // rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+            // console.log(`${sourceFileName} --> ${imgName}`);
             
-            outName = this.getTempFileName();
-            imgName = path.join(destinationFolder, filename)+"-container.png";
-            newText = publisher.publish(ws, "Container", "PLANT");
-            fs.writeFileSync(outName, newText);
-            rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-            console.log(`${sourceFileName} --> ${imgName}`);
+            // outName = this.getTempFileName();
+            // imgName = path.join(destinationFolder, filename)+"-container.png";
+            // newText = publisher.publish(ws, "Container", "PLANT");
+            // fs.writeFileSync(outName, newText);
+            // rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+            // console.log(`${sourceFileName} --> ${imgName}`);
             
-            outName = this.getTempFileName();
-            imgName = path.join(destinationFolder, filename)+"-component.png";
-            newText = publisher.publish(ws, "Component", "PLANT");
-            fs.writeFileSync(outName, newText);
-            rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-            console.log(`${sourceFileName} --> ${imgName}`);
+            // outName = this.getTempFileName();
+            // imgName = path.join(destinationFolder, filename)+"-component.png";
+            // newText = publisher.publish(ws, "Component", "PLANT");
+            // fs.writeFileSync(outName, newText);
+            // rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+            // console.log(`${sourceFileName} --> ${imgName}`);
     }
 
 

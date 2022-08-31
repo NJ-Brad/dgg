@@ -1,6 +1,6 @@
-# c4dsl README
+# dgg README
 
-This is the README for your extension "c4dsl". After writing up a brief description, we recommend including the following sections.
+Dependency Gantt Generator
 
 # Run npm install
 

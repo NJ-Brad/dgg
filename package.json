@@ -1,5 +1,5 @@
 {
-  "name": "dg",
+	"name": "dg",
 	"displayName": "dg",
 	"description": "Document Generator",
 	"version": "0.0.1",
@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:dg.helloWorld"
+		"onCommand:dg.helloWorld"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
