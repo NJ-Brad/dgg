@@ -1,6 +1,7 @@
 import { Block } from "../Block";
 import { WorkItem } from "./WorkItem";
 import { WorkItemWorkspace } from "./WorkItemWorkspace";
+import { WorkItemDependency } from "./WorkItemDependency";
 import { LineParser } from "../LineParser";
 
 export class BlockToWorkItemsConverter {
@@ -83,13 +84,36 @@ export class BlockToWorkItemsConverter {
                     break;
                 }
                 case 3: {
-                // fillDependencies(parts[3], newItem.dependencies)
+                    this.fillDependencies(newItem.dependencies, parts[3]);
                     break;
                 }
             }
             pn++;
         }
         items.push(newItem);
+    }
+
+    fillDependencies(dependencies: WorkItemDependency[], dependencyList: string) {
+        var newItem: WorkItemDependency = new WorkItemDependency();
+
+        var parts: string[];
+        var lp: LineParser = new LineParser();
+        parts = lp.parse2(dependencyList, ",");
+
+        for (var str of parts) {
+            var dt = Date.parse(str);
+//            console.log(dt);
+            if(isNaN(dt)){
+                newItem.id = str;
+                newItem.dependencyType = "WorkItem";
+            }
+            else {
+                newItem.startDate = str;
+                newItem.dependencyType = "StartDate";
+            }
+            dependencies.push(newItem);
+            newItem = new WorkItemDependency();
+        }
     }
 
     // convertConnection(connections: DependencyRelationship[], block: Block) {
