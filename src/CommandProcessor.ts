@@ -20,6 +20,7 @@ import { FlowchartPublisher } from "./dsl/flow/FlowchartPublisher";
 
 import {BlockToWorkItemsConverter} from "./Dsl/workItem/BlockToWorkItemsConverter";
 import {WorkItemWorkspace} from "./Dsl/workItem/WorkItemWorkspace";
+import {WorkItemPublisher} from "./Dsl/workItem/WorkItemPublisher";
 
 import * as mdConvert from "./MarkdownToHtml";
 
@@ -88,12 +89,12 @@ export class CommandProcessor {
             var imgName : string;
             var rnr: MermaidRunner = new MermaidRunner();
     
-            // outName = this.getTempFileName();
-            // imgName = path.join(destinationFolder, filename)+"-context.png";
+            outName = this.getTempFileName();
+            imgName = path.join(destinationFolder, filename)+"-Gannt.png";
             newText = publisher.publish(ws);
-            // fs.writeFileSync(outName, newText);
-            // rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-            // console.log(`${sourceFileName} --> ${imgName}`);
+            fs.writeFileSync(outName, newText);
+            rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+            console.log(`${sourceFileName} --> ${imgName}`);
             
             // outName = this.getTempFileName();
             // imgName = path.join(destinationFolder, filename)+"-container.png";

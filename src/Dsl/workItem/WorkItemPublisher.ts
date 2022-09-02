@@ -52,9 +52,9 @@ export class WorkItemPublisher {
         sb.appendLine("gantt");
         // gantt
         sb.appendLine("     dateFormat  YYYY-MM-DD");
-        sb.appendLine(`     title       {workspace.title}`);
-        //     excludes    weekends
-        //     %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
+        sb.appendLine(`     title       ${workspace.title}`);
+        sb.appendLine("     excludes    weekends");
+//        sb.appendLine(`     %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)`);
 
 //        sb.appendLine(`C4${diagramType}`);
 
@@ -75,98 +75,98 @@ export class WorkItemPublisher {
         var sb: StringBuilder = new StringBuilder();
 
         var indentation: string = this.buildIndentation(indent);
-        var displayType: string = item.itemType;
+        //var displayType: string = item.itemType;
         var goDeeper: boolean = true;
 
-        switch (item.itemType) {
-            case "PERSON":
-                if (item.external) {
-                    displayType = "External Person";
-                }
-                else {
-                    displayType = "Person";
-                }
-                break;
-            case "SYSTEM":
-                if (item.external) {
-                    displayType = "External System";
-                }
-                else {
-                    if (this.ciEquals(this.diagramType, "Context")) {
-                        goDeeper = false;
-                        displayType = "System";
-                    }
-                    else if (item.items.length === 0) {
-                        displayType = "System";
-                    }
-                    else {
-                        displayType = "System Boundary";
-                    }
-                }
-                break;
-            case "CONTAINER":
-                if (item.external) {
-                    displayType = "External Container";
-                }
-                else {
-                    if (this.ciEquals(this.diagramType, "Container")) {
-                        goDeeper = false;
-                        displayType = "Container";
-                    }
-                    else if (item.items.length === 0) {
-                        displayType = "Container";
-                    }
-                    else {
-                        displayType = "Container Boundary";
-                    }
-                }
-                break;
-            case "DATABASE":
-                if (item.external) {
-                    displayType = "External Database";
-                }
-                else {
-                    if (this.ciEquals(this.diagramType, "Container")) {
-                        goDeeper = false;
-                        displayType = "Database";
-                    }
-                    else if (item.items.length === 0) {
-                        displayType = "Database";
-                    }
-                    else {
-                        displayType = "Database Boundary";
-                    }
-                }
-                break;
-        }
+        // switch (item.itemType) {
+        //     case "PERSON":
+        //         if (item.external) {
+        //             displayType = "External Person";
+        //         }
+        //         else {
+        //             displayType = "Person";
+        //         }
+        //         break;
+        //     case "SYSTEM":
+        //         if (item.external) {
+        //             displayType = "External System";
+        //         }
+        //         else {
+        //             if (this.ciEquals(this.diagramType, "Context")) {
+        //                 goDeeper = false;
+        //                 displayType = "System";
+        //             }
+        //             else if (item.items.length === 0) {
+        //                 displayType = "System";
+        //             }
+        //             else {
+        //                 displayType = "System Boundary";
+        //             }
+        //         }
+        //         break;
+        //     case "CONTAINER":
+        //         if (item.external) {
+        //             displayType = "External Container";
+        //         }
+        //         else {
+        //             if (this.ciEquals(this.diagramType, "Container")) {
+        //                 goDeeper = false;
+        //                 displayType = "Container";
+        //             }
+        //             else if (item.items.length === 0) {
+        //                 displayType = "Container";
+        //             }
+        //             else {
+        //                 displayType = "Container Boundary";
+        //             }
+        //         }
+        //         break;
+        //     case "DATABASE":
+        //         if (item.external) {
+        //             displayType = "External Database";
+        //         }
+        //         else {
+        //             if (this.ciEquals(this.diagramType, "Container")) {
+        //                 goDeeper = false;
+        //                 displayType = "Database";
+        //             }
+        //             else if (item.items.length === 0) {
+        //                 displayType = "Database";
+        //             }
+        //             else {
+        //                 displayType = "Database Boundary";
+        //             }
+        //         }
+        //         break;
+        // }
 
-        var displayLabel: string = `\"<strong><u>${item.label}</u></strong>`;
-        var brokenDescription: string = item.description.replace("`", "<br/>");
+        // var displayLabel: string = `\"<strong><u>${item.label}</u></strong>`;
+        // var brokenDescription: string = item.description.replace("`", "<br/>");
 
-        if (item.description.length !== 0) {
-            displayLabel = displayLabel + `<br/>${brokenDescription}`;
-        }
+        // if (item.description.length !== 0) {
+        //     displayLabel = displayLabel + `<br/>${brokenDescription}`;
+        // }
 
-        displayLabel += `<br/>&#171;${displayType}&#187;\"`;
+        // displayLabel += `<br/>&#171;${displayType}&#187;\"`;
 
-        if (!goDeeper || (item.items.length === 0)) {
-            sb.append(`${indentation}${item.id}[${displayLabel}]`);
-            sb.append("\r\n");
-        }
-        else {
-            sb.append(`${indentation}subgraph ${item.id}[${displayLabel}]`);
-            sb.append("\r\n");
-            indent++;
+        // if (!goDeeper || (item.items.length === 0)) {
+        //     sb.append(`${indentation}${item.id}[${displayLabel}]`);
+        //     sb.append("\r\n");
+        // }
+        // else {
+        //     sb.append(`${indentation}subgraph ${item.id}[${displayLabel}]`);
+        //     sb.append("\r\n");
+        //     indent++;
 
-            var item2: C4Item;
-            for (var itmNum = 0; itmNum < item.items.length; itmNum++) {
-                item2 = item.items[itmNum];
-                sb.append(this.mermaidItem(item2, indent).trimEnd());
-                sb.append("\r\n");
-            }
-            sb.append(`${indentation}end`);
-            sb.append("\r\n");
-        }
+        //     var item2: C4Item;
+        //     for (var itmNum = 0; itmNum < item.items.length; itmNum++) {
+        //         item2 = item.items[itmNum];
+        //         sb.append(this.mermaidItem(item2, indent).trimEnd());
+        //         sb.append("\r\n");
+        //     }
+        //     sb.append(`${indentation}end`);
+        //     sb.append("\r\n");
+        // }
 
         return sb.text;
     }
@@ -177,40 +177,6 @@ export class WorkItemPublisher {
     public technology: string = "";
     public database: boolean = false;
     private _id: string = "";
-
-
-    private formatPlantItem(command: string, item: C4Item): string {
-        var sb: StringBuilder = new StringBuilder();
-
-        sb.append(command);
-
-        if (item.database) {
-            sb.append("Db");
-        }
-        if (item.external) {
-            sb.append("_Ext");
-        }
-
-        sb.append("(");
-
-        sb.append(item.id);
-
-        if (item.label !== "") {
-            sb.append(`, \"${item.label}\"`);
-
-            if (item.description !== "") {
-                sb.append(`, \"${item.description}\"`);
-
-                if (item.technology !== "") {
-                    sb.append(`, \"${item.technology}\"`);
-                }
-            }
-        }
-
-        sb.append(")");
-
-        return sb.text;
-    }
 
     // https://stackoverflow.com/questions/2140627/how-to-do-case-insensitive-string-comparison
     ciEquals(a: string, b: string) {
