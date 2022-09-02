@@ -87,14 +87,18 @@ export class CommandProcessor {
             // var dirName = path.dirname(myArgs[0]);
             var outName : string;
             var imgName : string;
+            var testFileName : string;
             var rnr: MermaidRunner = new MermaidRunner();
     
             outName = this.getTempFileName();
             imgName = path.join(destinationFolder, filename)+"-Gannt.png";
+            testFileName = path.join(destinationFolder, filename)+"-Gannt.txt";
             newText = publisher.publish(ws);
             fs.writeFileSync(outName, newText);
+            fs.writeFileSync(testFileName, newText);
             rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
             console.log(`${sourceFileName} --> ${imgName}`);
+//            fs.rmSync(`\"${outName}\"`);
             
             // outName = this.getTempFileName();
             // imgName = path.join(destinationFolder, filename)+"-container.png";

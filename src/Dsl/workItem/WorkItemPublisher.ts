@@ -18,8 +18,11 @@ export class WorkItemPublisher {
 
         sb.append(this.mermaidHeader(workspace));
 
+        var firstItem : boolean = true;
+
         for (var item of workspace.items) {
-            sb.append(this.mermaidItem(item));
+            sb.append(this.mermaidItem(item, firstItem));
+            firstItem = false;
         }
 
         return sb.text;
@@ -71,12 +74,24 @@ export class WorkItemPublisher {
         return rtnVal;
     }
 
-    private mermaidItem(item: WorkItem, indent: number = 1): string {
+    private mermaidItem(item: WorkItem, firstItem: boolean, indent: number = 1): string {
         var sb: StringBuilder = new StringBuilder();
 
         var indentation: string = this.buildIndentation(indent);
         //var displayType: string = item.itemType;
         var goDeeper: boolean = true;
+
+
+
+        if(firstItem)
+        {
+            const start: Date = new Date();
+            var datePart = this.toIsoString(start);
+            sb.appendLine(`${item.label} : ${datePart}, 1d`);
+        }
+        else{
+            sb.appendLine(`${item.label} : 1d`);
+        }
 
         // switch (item.itemType) {
         //     case "PERSON":
@@ -169,6 +184,24 @@ export class WorkItemPublisher {
         // }
 
         return sb.text;
+    }
+
+    public toIsoString(date : Date) : string {
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var dt = date.getDate();
+
+        var dtString: string = dt.toString();
+        var monthString: string = month.toString();
+        
+        if (dt < 10) {
+            dtString = '0' + dt.toString();
+        }
+        if (month < 10) {
+            monthString = '0' + month.toString();
+        }
+        
+        return(year+'-' + monthString + '-'+ dtString);
     }
 
     public label: string = "";

@@ -1,0 +1,6 @@
+gantt
+     dateFormat  YYYY-MM-DD
+     title       This is a sample project
+     excludes    weekends
+ALF [Onboarding] Nested Questions - Smart Form : 2022-09-02, 1d
+ALF [Onboarding] Nested Question Set | UI : 1d
