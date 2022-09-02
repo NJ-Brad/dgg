@@ -41,12 +41,6 @@ export class BlockToWorkItemsConverter {
                     this.convertItem(rtnVal.items, grandChild);
                 }
             }
-
-            // if (this.ciEquals(child.blockText, "connections")) {
-            //     for (var grandChild of child.children) {
-            //         this.convertConnection(rtnVal.relationships, grandChild);
-            //     }
-            // }
         }
 
         return rtnVal;
@@ -102,7 +96,7 @@ export class BlockToWorkItemsConverter {
 
         for (var str of parts) {
             var dt = Date.parse(str);
-//            console.log(dt);
+
             if(isNaN(dt)){
                 newItem.id = str;
                 newItem.dependencyType = "WorkItem";
@@ -115,59 +109,4 @@ export class BlockToWorkItemsConverter {
             newItem = new WorkItemDependency();
         }
     }
-
-    // convertConnection(connections: DependencyRelationship[], block: Block) {
-    //     var newItem: DependencyRelationship = new DependencyRelationship();
-
-    //     var parts: string[];
-
-    //     var lp: LineParser = new LineParser();
-    //     // allow for comment
-    //     if (block.blockText.trim()[0] === "'") {
-    //         return;
-    //     }
-    //     parts = lp.parse(block.blockText);
-
-    //     var origin: string = "";
-    //     var destination: string = "";
-    //     var technology: string = "";
-    //     var label: string = "";
-
-    //     var nextIsTechnology: boolean = false;
-
-    //     var pn: number;
-    //     pn = 0;
-
-    //     for (var str of parts) {
-    //         if (pn === 0) {
-    //             origin = str;
-    //         }
-    //         else if (pn === 1) {
-    //             label = str.trim();
-    //         }
-    //         else if (pn === 2) {
-    //             destination = str;
-    //         }
-    //         else {
-    //             if (this.ciEquals(str, "utilizing")) {
-    //                 nextIsTechnology = true;
-    //             }
-    //             else if (nextIsTechnology) {
-    //                 technology = str;
-    //                 nextIsTechnology = false;
-    //             }
-    //         }
-    //         pn++;
-    //     }
-
-    //     newItem = new DependencyRelationship();
-    //     newItem.from = origin;
-    //     newItem.to = destination;
-    //     newItem.label = label;
-    //     newItem.technology = technology;
-
-    //     if (newItem !== null) {
-    //         connections.push(newItem);
-    //     }
-    // }
 }

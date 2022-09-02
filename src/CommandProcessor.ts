@@ -79,7 +79,7 @@ export class CommandProcessor {
             
             var ws: WorkItemWorkspace = btd.convert(block);
             
-            //var publisher: C4Publisher = new C4Publisher();
+            var publisher: WorkItemPublisher = new WorkItemPublisher();
             
             var newText = "";
             // var path = require('path');
@@ -90,7 +90,7 @@ export class CommandProcessor {
     
             // outName = this.getTempFileName();
             // imgName = path.join(destinationFolder, filename)+"-context.png";
-            // newText = publisher.publish(ws, "Context", "PLANT");
+            newText = publisher.publish(ws);
             // fs.writeFileSync(outName, newText);
             // rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
             // console.log(`${sourceFileName} --> ${imgName}`);
