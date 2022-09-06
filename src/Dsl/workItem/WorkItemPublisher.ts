@@ -18,11 +18,8 @@ export class WorkItemPublisher {
 
         sb.append(this.mermaidHeader(workspace));
 
-        var firstItem : boolean = true;
-
         for (var item of workspace.items) {
-            sb.append(this.mermaidItem(item, firstItem));
-            firstItem = false;
+            sb.append(this.mermaidItem(item));
         }
 
         return sb.text;
@@ -54,13 +51,11 @@ export class WorkItemPublisher {
 
         sb.appendLine("gantt");
         // gantt
-        sb.appendLine("     dateFormat  YYYY-MM-DD");
-        sb.appendLine(`     title       ${workspace.title}`);
-        sb.appendLine("     excludes    weekends");
-//        sb.appendLine(`     %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)`);
-
-//        sb.appendLine(`C4${diagramType}`);
-
+        sb.appendLine("    dateFormat  YYYY-MM-DD");
+        sb.appendLine(`    title       ${workspace.title}`);
+        sb.appendLine("    excludes    weekends");
+//        sb.appendLine(`    %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)`);
+        sb.appendLine(`    Start : milestone, start, ${workspace.startDate}, 0min`);
 
         return sb.text;
     }
@@ -74,7 +69,7 @@ export class WorkItemPublisher {
         return rtnVal;
     }
 
-    private mermaidItem(item: WorkItem, firstItem: boolean, indent: number = 1): string {
+    private mermaidItem(item: WorkItem, indent: number = 1): string {
         var sb: StringBuilder = new StringBuilder();
 
         var indentation: string = this.buildIndentation(indent);
@@ -82,16 +77,40 @@ export class WorkItemPublisher {
         var goDeeper: boolean = true;
 
 
+        var deps : StringBuilder = new StringBuilder();
 
-        if(firstItem)
-        {
-            const start: Date = new Date();
-            var datePart = this.toIsoString(start);
-            sb.appendLine(`${item.label} : ${datePart}, 1d`);
+        deps.append("start");
+
+        for (var dependency of item.dependencies) {
+            if(dependency.dependencyType === "StartDate")
+            {
+                deps.append(` ${dependency.startDate}`);
+            }
+            else
+            {
+                deps.append(` ${dependency.id}`);
+            }
         }
-        else{
-            sb.appendLine(`${item.label} : 1d`);
-        }
+        
+        // if(firstItem)
+        // {
+        //     const start: Date = new Date();
+        //     var datePart = this.toIsoString(start);
+        //     sb.appendLine(`${item.label} : ${datePart}, 1d`);
+        // }
+        // else{
+            sb.append(`${item.label} :${item.id} `);
+
+            if(deps.text.length > 0){
+                sb.append(`, after ${deps.text}`);
+            }
+
+            if(item.duration.length > 0){
+                sb.append(`, ${item.duration}d`);
+            }
+
+            sb.appendLine("");
+//        }
 
         // switch (item.itemType) {
         //     case "PERSON":
